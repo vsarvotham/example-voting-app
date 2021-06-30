@@ -6,41 +6,25 @@ services:
     volumes:
      - ./vote:/app
     ports:
-     - "81-82:80"
-    networks:
-     - front-tier
-     - back-tier
+      - "5000:80"
 
   redis:
     image: redis:alpine
     ports: ["6379"]
-    networks:
-     - back-tier
 
   worker:
     image: example-voting-app_worker
-    networks:
-     - back-tier
 
   db:
     image: postgres:9.4
     environment:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "postgres"
-    networks:
-     - back-tier 
 
   result:
     image: example-voting-app_result
     volumes:
-     - ./result:/app
+      - ./result:/app
     ports:
-     - "5001:80"
-     - "5858:5858"
-    networks:
-     - front-tier
-     - back-tier
-
-networks:
-  front-tier:
-  back-tier:
+      - "5001:80"
+      - "5858:5858"
