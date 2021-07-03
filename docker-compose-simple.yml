@@ -2,14 +2,26 @@ version: "3"
 
 services:
   vote:
-    image: example-voting-app_vote
+    image: vote
     volumes:
      - ./vote:/app
     ports:
-     - "81-82:80"
+     - "80"
+    expose:
+     - "80"
     networks:
      - front-tier
      - back-tier
+ 
+  nginx:
+    build:
+      context: ./nginx
+    depends_on:
+      - vote
+    ports:
+      - "80:80"
+    networks:
+      - front-tier
 
   redis:
     image: redis:alpine
@@ -18,7 +30,7 @@ services:
      - back-tier
 
   worker:
-    image: example-voting-app_worker
+    image: worker
     networks:
      - back-tier
 
@@ -31,7 +43,7 @@ services:
      - back-tier 
 
   result:
-    image: example-voting-app_result
+    image: result
     volumes:
      - ./result:/app
     ports:
