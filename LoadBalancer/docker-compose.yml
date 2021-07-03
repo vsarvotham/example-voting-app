@@ -1,0 +1,11 @@
+version: "3"
+services:
+  service1:
+    image: nginx-ip
+    ports:
+      - "86-90:80"
+
+  service2:
+    image: nginx:latest
+    ports:
+      - "80:80"
